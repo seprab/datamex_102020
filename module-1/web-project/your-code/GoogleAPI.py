@@ -6,7 +6,7 @@ import urllib.request
 #https://developers.google.com/places/web-service/search?hl=es#find-place-examples
 
 class GooglePlaces:
-    API_KEY = "AIzaSyDyA7AmKOOKKmq5Ww7EtDN6Kb2cGOVWvHU"
+    API_KEY = ""
     PLACE_SEARCH_BASE_URL = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
 
     @staticmethod
