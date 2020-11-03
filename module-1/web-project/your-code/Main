@@ -1,0 +1,64 @@
+from GoogleAPI import GooglePlaces
+from TheForkScrapper import TheForkExtractor
+import pandas as pd
+
+
+zona = "Bastille"
+ciudad = "Paris"
+pais = "France"
+
+print(f"Programa iniciado para buscar restaurantes en {zona}, {ciudad}, {pais}")
+columnas_google = ["Nombre", "Puntuación", "Costos", "Lat-Lon"]
+columnas_theFork = ["Nombre", "Tipo", "Costos", "Puntuación"]
+print("Extracción de la API de google iniciada")
+lista_google = pd.DataFrame(GooglePlaces.get_places_list(zona, ciudad, pais), columns=columnas_google)
+print(f"Extracción de la API de google finalizada con {len(lista_google)} lugares distintos")
+
+ref_lat = lista_google.iloc[0, 3]["lat"]
+ref_lng = lista_google.iloc[0, 3]["lng"]
+print("Coordenadas seleccionadas para WebScrapping en 'The Fork: '", ref_lat, ",", ref_lng)
+
+print("Extracción de 'The Fork' iniciada")
+lista_theFork = pd.DataFrame(TheForkExtractor.get_places_list(ref_lat, ref_lng), columns=columnas_theFork)
+print(f"Extracción de 'The Fork' finalizada con {len(lista_theFork)} lugares distintos")
+
+print("Intentaremos un merge entre los data frames")
+merge = lista_google.merge(lista_theFork, how='inner', on=['Nombre'])
+
+lista_resultado = []
+for index in merge.index:
+    nombre = (merge.iloc[index][0]).capitalize()
+    puntuacion = "Not specified"
+    if merge.iloc[index][1] != "" and merge.iloc[index][6] != "":
+        puntuacion = (float(merge.iloc[index][1]) + float(merge.iloc[index][6])) / 2
+        puntuacion *= 10
+    elif merge.iloc[index][1] != "":
+        puntuacion = float(merge.iloc[index][1])
+        puntuacion *= 10
+    elif merge.iloc[index][6] != "":
+        puntuacion = float(merge.iloc[index][6])
+        puntuacion *= 10
+
+    categoria = "Not specified"
+    posibles = {0: "Free", 1: "Inexpensive", 2: "Moderate", 3: "Expensive", 4: "Very Expensive"}
+    if merge.iloc[index][2] != "":
+        categoria = posibles[merge.iloc[index][2]]
+
+    costo_promedio = "Not specified"
+    if merge.iloc[index][5] != "":
+        costo_promedio = (merge.iloc[index][5]).replace(" "," ")
+
+    posicion = "Not specified"
+    if merge.iloc[index][3] != "":
+        posicion = merge.iloc[index][3]
+
+    lista_resultado.append([nombre, puntuacion, categoria, costo_promedio, posicion])
+print(f"Merge entre los data frames finalizado con {len(lista_resultado)} coincidencias entre API de Google y BDs de The Fork")
+
+if len(lista_resultado) != 0:
+    columnas_theFork = ["Nombre", "Puntuación", "Categoria", "Costo Promedio", "Coords"]
+    df_resultado = pd.DataFrame(lista_resultado, columns=columnas_theFork)
+    df_resultado.to_csv(f"{zona}-{ciudad}-{pais}.csv")
+    print("Generación de archivo finalizado")
+else:
+    print("gg")
