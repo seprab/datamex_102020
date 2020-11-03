@@ -3,9 +3,10 @@ from TheForkScrapper import TheForkExtractor
 import pandas as pd
 
 
-zona = "Bastille"
-ciudad = "Paris"
-pais = "France"
+zona = "San Angel"
+ciudad = "Mexico City"
+pais = ""
+
 
 print(f"Programa iniciado para buscar restaurantes en {zona}, {ciudad}, {pais}")
 columnas_google = ["Nombre", "Puntuación", "Costos", "Lat-Lon"]
