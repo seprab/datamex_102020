@@ -1,3 +1,10 @@
+> Hola Mayumi, a continuación encontrarás dos partes del README, la primera nombrada ***'¿Donde Ubicar Mi Empresa?'*** y la segunda ***'Resolución del Problema'***. 
+1. La primera sección la destine a descubrir que tipo de empresa queria posicionar en el mundo y me hice a diferentes ideas de como hacerlo.
+2. La segunda sección la escribo despues de finalizar el proyecto, dado que los resultados esperados durante el proyecto no fuerón los mejores, tuve que improvisar hasta llegar al resultado.
+
+[La ruta al código](https://github.com/seprab/datamex_102020/blob/w4_m2_d5_pythonBiProject/module-2/python-bi-project/MongoDBFiltering.ipynb)
+
+
 # ¿Donde Ubicar Mi Empresa?
 
 Para dar inicio al proyecto creo que lo primero debo definir es: ¿Cual es mi empresa?
@@ -57,3 +64,57 @@ partners | | |
 	2. Criterios de selección de competencias
 	3. Oficinas (address) de competencias
 **Efectuar la estrategia de selección**
+
+
+
+# Resolución del Problema
+
+Durante el desarrollo del reto me enfrente a diferentes obstaculos que no permitierón encajar mi idea de empresa para el desarrollo del proyecto.
+
+1- Al inicio del proyecto mi empresa era un lugar donde motociclistas y ciclistas del día a día podrían acercarse para realizar mantenimiento a sus herramientas de movilidad. La idea es que el mismo dueño del vehiculo haga sus mantenimientos y aseo haciendo uso de las herramientas disponibles en las instalaciones de la empresa.
+2- ***¡Ho sorpresa!*** Implemente las tecnicas de filtrado necesario con MongoDB, pero me di cuenta que la base de datos estaba mayormente orientada a empresas de tecnologia.
+	- Social Media
+	- Video Juegos
+	- y mas...
+> El porcentaje de empresas categorizadas en el ambito de 'Movilidad' era extremadamente pequeño. Me parece que llegue al punto de filtrar 19 empresas relacionadas.
+
+3- Al encontrar el pequeño porcentaje de empresas de movilidad, me parecia bien. Por lo anterior, tomé la iniciativa de investigar cada una de esas empresas filtradas.
+
+4- ***¡Ho sorpresa!*** esas empresas de movilidad eran tipo 'Tesla', compra-venta de usados, construcción de partes mecanicas, etc.... Nada que ver con mi idea.
+
+*Para este punto realice una pausa porque descubrí que tenia la completa libertad de elegir cualquier parte del mundo ***PERO*** sin hacer uso de la BDs.*
+
+> Tomé la decisión de realizar web scrapping para seleccionar los paises que mas usan bicicletas *y* motos, encontrando a Colombia e Italia en estas coincidencias. Posteriormente, Oscar nos aclaró que la idea del proyecto es hacer uso de MongoDB. Y por esta razón, retomé el proyecto con la misma BDs pero con nuevos criterios de selección.
+
+
+### Nuevos Criterios de Selección
+- La ciudad con mas número de empleados en el mundo dada la base de datos.
+
+***No más.*** En realidad queria descubrir en que parte del mundo se concentraba la mayor parte de empleados, teniendo en consideración todas las empresas de la base de datos.
+Si habian empresas con varias oficinas, yo realizaba la división en partes iguales del número de empleados por cada oficina.
+
+1. Posterior, a realizar la agrupación y suma de empleados de todas las empresas por ciudad, descubrí el siguiente TOP:
+
+Ciudad | Número Empleados  
+------------ | ------------- 
+Tokyo | 514178
+San Jose | 499412
+Munich |405426
+Armonk |388000
+Aichi | 320000
+Falls Church | 272940
+San Diego | 240676
+New York | 199233
+Pleasanton | 191019
+Seoul |	177919
+
+>En el código muestro el top 30 de ciudades
+
+2. Seguido, realicé web scrapping del TOP 30 de ciudades del múndo con mas ciclistas. No encontre el mismo top con motos.
+3. Encontré las ciudades coincidentes entre el TOP número de empleados y el TOP con mas ciclistas. El resultado es ***Montreal***.
+
+## Conclusiones
+
+1. Las empresas en la base de datos a pesar de ser grande, no recoge gran variedad de tipos de empresas ni de todos los paises del mundo.
+2. El resultado hayado contradice mis criterios antes de iniciar el proyecto. En Montreal caé nieve 1/3 del año, lo cual invalida la selección.
+3. Montreal no hace parte de los paises con mas motociclistas ***Y*** ciclistas del mundo. 
